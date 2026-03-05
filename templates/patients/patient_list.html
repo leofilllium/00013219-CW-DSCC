@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Patients – MediTrack{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-people"></i> Patients</h1>
+    <a href="{% url 'patient-create' %}" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Add Patient
+    </a>
+</div>
+
+<!-- Search -->
+<form method="get" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Search patients by name or phone…" value="{{ query }}">
+        <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+    </div>
+</form>
+
+{% if patients %}
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Blood Type</th>
+                <th>Phone</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+            <tr>
+                <td><a href="{% url 'patient-detail' patient.pk %}" class="fw-semibold text-decoration-none">{{ patient.full_name }}</a></td>
+                <td>{{ patient.date_of_birth|date:"M j, Y" }}</td>
+                <td>{{ patient.get_gender_display }}</td>
+                <td>{{ patient.blood_type|default:"—" }}</td>
+                <td>{{ patient.phone|default:"—" }}</td>
+                <td>
+                    <a href="{% url 'patient-detail' patient.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
+                    <a href="{% url 'patient-update' patient.pk %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="text-center py-5">
+    <i class="bi bi-people display-1 text-muted"></i>
+    <p class="text-muted mt-3">No patients found{% if query %} for "{{ query }}"{% endif %}.</p>
+    <a href="{% url 'patient-create' %}" class="btn btn-primary">Add Your First Patient</a>
+</div>
+{% endif %}
+{% endblock %}

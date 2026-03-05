@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Prescriptions – MediTrack{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-capsule"></i> Prescriptions</h1>
+    <a href="{% url 'prescription-create' %}" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> New Prescription
+    </a>
+</div>
+
+{% if prescriptions %}
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Patient</th>
+                <th>Medications</th>
+                <th>Dosage</th>
+                <th>Frequency</th>
+                <th>Start Date</th>
+                <th>Doctor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rx in prescriptions %}
+            <tr>
+                <td><a href="{% url 'patient-detail' rx.patient.pk %}">{{ rx.patient.full_name }}</a></td>
+                <td>
+                    {% for med in rx.medications.all %}
+                    <span class="badge bg-primary">{{ med.name }}</span>
+                    {% endfor %}
+                </td>
+                <td>{{ rx.dosage }}</td>
+                <td>{{ rx.frequency }}</td>
+                <td>{{ rx.start_date|date:"M j, Y" }}</td>
+                <td>{{ rx.doctor.get_full_name|default:rx.doctor.username }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="text-center py-5">
+    <i class="bi bi-capsule display-1 text-muted"></i>
+    <p class="text-muted mt-3">No prescriptions yet.</p>
+</div>
+{% endif %}
+{% endblock %}
