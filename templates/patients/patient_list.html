@@ -3,45 +3,71 @@
 {% block title %}Patients – MediTrack{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1><i class="bi bi-people"></i> Patients</h1>
-    <a href="{% url 'patient-create' %}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i> Add Patient
+<div class="d-flex justify-content-between align-items-center mb-4 fade-in-up">
+    <h1 class="mb-0 fw-bold" style="letter-spacing:-0.03em;">
+        <i class="bi bi-people-fill text-primary pe-2"></i>Patients
+    </h1>
+    <a href="{% url 'patient-create' %}" class="btn btn-primary rounded-pill shadow-sm px-4">
+        <i class="bi bi-plus-lg me-1"></i> New Patient
     </a>
 </div>
 
 <!-- Search -->
-<form method="get" class="mb-4">
-    <div class="input-group">
-        <input type="text" name="q" class="form-control" placeholder="Search patients by name or phone…" value="{{ query }}">
-        <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
-    </div>
-</form>
+<div class="card border-0 bg-transparent mb-4 fade-in-up delay-100">
+    <form method="get">
+        <div class="input-group shadow-sm rounded-pill overflow-hidden">
+            <span class="input-group-text bg-white border-0 ps-4 pe-2 text-muted">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text" name="q" class="form-control border-0 py-3 shadow-none" placeholder="Search patients by name or phone…" value="{{ query }}">
+            <button class="btn btn-primary px-4" type="submit">Search</button>
+        </div>
+    </form>
+</div>
 
 {% if patients %}
-<div class="table-responsive">
-    <table class="table table-hover align-middle">
+<div class="table-responsive fade-in-up delay-200">
+    <table class="table table-custom mb-0">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Date of Birth</th>
-                <th>Gender</th>
+                <th>Patient Name</th>
+                <th>Details</th>
                 <th>Blood Type</th>
-                <th>Phone</th>
-                <th></th>
+                <th>Contact</th>
+                <th class="text-end">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for patient in patients %}
             <tr>
-                <td><a href="{% url 'patient-detail' patient.pk %}" class="fw-semibold text-decoration-none">{{ patient.full_name }}</a></td>
-                <td>{{ patient.date_of_birth|date:"M j, Y" }}</td>
-                <td>{{ patient.get_gender_display }}</td>
-                <td>{{ patient.blood_type|default:"—" }}</td>
-                <td>{{ patient.phone|default:"—" }}</td>
                 <td>
-                    <a href="{% url 'patient-detail' patient.pk %}" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye"></i></a>
-                    <a href="{% url 'patient-update' patient.pk %}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3 text-primary fw-bold" style="width:44px;height:44px;">
+                            {{ patient.first_name|make_list|first }}{{ patient.last_name|make_list|first }}
+                        </div>
+                        <div>
+                            <a href="{% url 'patient-detail' patient.pk %}" class="fw-bold text-dark text-decoration-none stretched-link-custom">{{ patient.full_name }}</a>
+                            <div class="text-muted small">ID: #{{ patient.pk|stringformat:"04d" }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="text-dark">{{ patient.date_of_birth|date:"M j, Y" }}</div>
+                    <div class="text-muted small">{{ patient.get_gender_display }}</div>
+                </td>
+                <td>
+                    {% if patient.blood_type %}
+                        <span class="badge badge-soft-danger px-3 py-2">{{ patient.blood_type }}</span>
+                    {% else %}
+                        <span class="text-muted">—</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="text-dark"><i class="bi bi-telephone-fill text-muted me-1 small"></i> {{ patient.phone|default:"—" }}</div>
+                </td>
+                <td class="text-end position-relative" style="z-index: 2;">
+                    <a href="{% url 'patient-detail' patient.pk %}" class="btn btn-sm btn-light text-primary rounded-circle shadow-sm me-1" style="width:32px;height:32px;padding:0;line-height:32px;"><i class="bi bi-eye"></i></a>
+                    <a href="{% url 'patient-update' patient.pk %}" class="btn btn-sm btn-light text-secondary rounded-circle shadow-sm" style="width:32px;height:32px;padding:0;line-height:32px;"><i class="bi bi-pencil"></i></a>
                 </td>
             </tr>
             {% endfor %}
@@ -49,10 +75,17 @@
     </table>
 </div>
 {% else %}
-<div class="text-center py-5">
-    <i class="bi bi-people display-1 text-muted"></i>
-    <p class="text-muted mt-3">No patients found{% if query %} for "{{ query }}"{% endif %}.</p>
-    <a href="{% url 'patient-create' %}" class="btn btn-primary">Add Your First Patient</a>
+<div class="text-center py-5 fade-in-up delay-200 glass-panel rounded-4">
+    <div class="d-inline-flex align-items-center justify-content-center bg-light text-muted rounded-circle mb-4 shadow-sm" style="width:100px;height:100px;">
+        <i class="bi bi-people display-4"></i>
+    </div>
+    <h3 class="fw-bold text-dark">No patients found</h3>
+    <p class="text-muted mb-4">{% if query %}We couldn't find any patients matching "{{ query }}".{% else %}Start by adding your first patient to the system.{% endif %}</p>
+    {% if not query %}
+    <a href="{% url 'patient-create' %}" class="btn btn-primary rounded-pill px-4 shadow-sm"><i class="bi bi-plus-lg me-1"></i> Add Your First Patient</a>
+    {% else %}
+    <a href="{% url 'patient-list' %}" class="btn btn-outline-primary rounded-pill px-4">Clear Search</a>
+    {% endif %}
 </div>
 {% endif %}
 {% endblock %}
