@@ -47,6 +47,7 @@ jobs:
       DATABASE_HOST: localhost
       DATABASE_PORT: 5432
       SECRET_KEY: test-secret-key-for-ci
+      DEBUG: 'True'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
