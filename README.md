@@ -203,7 +203,7 @@ The project uses GitHub Actions (`.github/workflows/deploy.yml`) with these stag
 | Role | Username | Password |
 |---|---|---|
 | Admin | `admin` | `admin1234` |
-| Doctor | `doctor1` | `doc1234!` |
+| Doctor | `wiut` | `Sher2004` |
 
 ---
 
