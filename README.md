@@ -56,7 +56,7 @@ User (Django built-in)
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/00013219-CW-DSCC.git
+git clone https://github.com/leofilllium/00013219-CW-DSCC.git
 cd 00013219-CW-DSCC
 
 # Create environment file
@@ -82,7 +82,7 @@ docker compose exec web python manage.py collectstatic --noinput
 
 ```bash
 # Clone and enter directory
-git clone https://github.com/YOUR_USERNAME/00013219-CW-DSCC.git
+git clone https://github.com/leofilllium/00013219-CW-DSCC.git
 cd 00013219-CW-DSCC
 
 # Create virtual environment
@@ -124,7 +124,7 @@ sudo ufw allow 443
 sudo ufw enable
 
 # Clone and deploy
-git clone https://github.com/YOUR_USERNAME/00013219-CW-DSCC.git ~/meditrack
+git clone https://github.com/leofilllium/00013219-CW-DSCC.git ~/meditrack
 cd ~/meditrack
 cp .env.example .env
 nano .env  # Configure production values
