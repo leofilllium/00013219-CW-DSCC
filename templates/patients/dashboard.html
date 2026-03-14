@@ -4,169 +4,139 @@
 {% block title %}Dashboard – MediTrack{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4 fade-in-up">
-    <h1 class="mb-0 fw-bold" style="letter-spacing:-0.03em;">
-        <i class="bi bi-grid-1x2-fill text-primary pe-2"></i>Dashboard
-    </h1>
-    <div class="pe-2 text-muted fw-medium">{{ request.user.get_full_name|default:request.user.username }}</div>
-</div>
+<div class="fade-in-up">
+    <div class="page-header" style="border-bottom: none; padding-bottom: 0;">
+        <p class="section-label">Overview</p>
+        <h1>Dashboard</h1>
+    </div>
 
-<!-- Stats Cards -->
-<div class="row g-4 mb-5 fade-in-up delay-100">
-    <div class="col-sm-6 col-xl-3">
-        <div class="card stat-card h-100 p-2">
-            <div class="card-body">
+    <!-- Stats -->
+    <div class="row g-3 mb-5 fade-in-up delay-100">
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
-                        <p class="text-muted fw-semibold text-uppercase mb-1" style="font-size:0.75rem; letter-spacing:0.05em;">Total Patients</p>
-                        <h2 class="mb-0 fw-bold">{{ total_patients }}</h2>
+                        <p class="stat-label">Patients</p>
+                        <div class="stat-value">{{ total_patients }}</div>
                     </div>
-                    <div class="stat-icon bg-primary bg-opacity-10 text-primary shadow-sm">
-                        <i class="bi bi-people-fill"></i>
+                    <div class="stat-icon"><i class="bi bi-people"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="stat-label">Prescriptions</p>
+                        <div class="stat-value">{{ total_prescriptions }}</div>
                     </div>
+                    <div class="stat-icon"><i class="bi bi-capsule"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="stat-label">Appointments</p>
+                        <div class="stat-value">{{ total_appointments }}</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-calendar-check"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="stat-label">Medications</p>
+                        <div class="stat-value">{{ total_medications }}</div>
+                    </div>
+                    <div class="stat-icon"><i class="bi bi-prescription2"></i></div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-xl-3">
-        <div class="card stat-card h-100 p-2">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <p class="text-muted fw-semibold text-uppercase mb-1" style="font-size:0.75rem; letter-spacing:0.05em;">Prescriptions</p>
-                        <h2 class="mb-0 fw-bold">{{ total_prescriptions }}</h2>
-                    </div>
-                    <div class="stat-icon bg-success bg-opacity-10 text-success shadow-sm">
-                        <i class="bi bi-capsule-pill"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-xl-3">
-        <div class="card stat-card h-100 p-2">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <p class="text-muted fw-semibold text-uppercase mb-1" style="font-size:0.75rem; letter-spacing:0.05em;">Appointments</p>
-                        <h2 class="mb-0 fw-bold">{{ total_appointments }}</h2>
-                    </div>
-                    <div class="stat-icon bg-warning bg-opacity-10 text-warning shadow-sm">
-                        <i class="bi bi-calendar-event-fill"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-xl-3">
-        <div class="card stat-card h-100 p-2">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start">
-                    <div>
-                        <p class="text-muted fw-semibold text-uppercase mb-1" style="font-size:0.75rem; letter-spacing:0.05em;">Medications</p>
-                        <h2 class="mb-0 fw-bold">{{ total_medications }}</h2>
-                    </div>
-                    <div class="stat-icon bg-info bg-opacity-10 text-info shadow-sm">
-                        <i class="bi bi-prescription2"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="row g-4 fade-in-up delay-200">
-    <!-- Recent Patients -->
-    <div class="col-lg-8">
-        <div class="card h-100">
-            <div class="card-header d-flex justify-content-between align-items-center bg-white border-0 pt-4 pb-0">
-                <h5 class="mb-0 fw-bold"><i class="bi bi-person-lines-fill text-primary me-2"></i>Recent Patients</h5>
-                <a href="{% url 'patient-list' %}" class="btn btn-sm btn-outline-primary rounded-pill px-3">View All</a>
+    <div class="row g-4 fade-in-up delay-200">
+        <!-- Recent Patients -->
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 style="margin-bottom: 0;">Recent Patients</h4>
+                <a href="{% url 'patient-list' %}" class="btn btn-sm btn-outline-primary">View all</a>
             </div>
-            <div class="card-body">
-                {% if recent_patients %}
-                <div class="table-responsive">
-                    <table class="table table-custom mb-0">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Gender</th>
-                                <th>Blood</th>
-                                <th class="text-end">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for patient in recent_patients %}
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3 text-primary fw-bold" style="width:40px;height:40px;">
-                                            {{ patient.first_name|make_list|first }}{{ patient.last_name|make_list|first }}
-                                        </div>
-                                        <div>
-                                            <div class="fw-bold text-dark">{{ patient.full_name }}</div>
-                                            <div class="text-muted small">DOB: {{ patient.date_of_birth|date:"M j, Y" }}</div>
-                                        </div>
+            {% if recent_patients %}
+            <div class="table-responsive">
+                <table class="table table-custom mb-0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Blood</th>
+                            <th style="text-align: right;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for patient in recent_patients %}
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="avatar">{{ patient.first_name|make_list|first }}{{ patient.last_name|make_list|first }}</div>
+                                    <div>
+                                        <div style="font-weight: 600; color: var(--text-primary);">{{ patient.full_name }}</div>
+                                        <div class="mono" style="font-size: 0.75rem; color: var(--text-muted);">{{ patient.date_of_birth|date:"M j, Y" }}</div>
                                     </div>
-                                </td>
-                                <td>{{ patient.get_gender_display }}</td>
-                                <td>
-                                    {% if patient.blood_type %}
-                                        <span class="badge badge-soft-danger">{{ patient.blood_type }}</span>
-                                    {% else %}
-                                        <span class="text-muted">-</span>
-                                    {% endif %}
-                                </td>
-                                <td class="text-end">
-                                    <a href="{% url 'patient-detail' patient.pk %}" class="btn btn-sm btn-light text-primary rounded-pill shadow-sm"><i class="bi bi-eye"></i></a>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% else %}
-                <div class="text-center py-5 text-muted">
-                    <i class="bi bi-inbox fs-1 mb-3 d-block text-secondary opacity-50"></i>
-                    No patients registered yet.
-                </div>
-                {% endif %}
+                                </div>
+                            </td>
+                            <td>{{ patient.get_gender_display }}</td>
+                            <td>
+                                {% if patient.blood_type %}
+                                    <span class="badge badge-soft-danger">{{ patient.blood_type }}</span>
+                                {% else %}
+                                    <span style="color: var(--text-muted);">—</span>
+                                {% endif %}
+                            </td>
+                            <td style="text-align: right;">
+                                <a href="{% url 'patient-detail' patient.pk %}" class="btn btn-sm btn-outline-secondary">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
+            {% else %}
+            <div class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.875rem;">No patients registered yet.</p>
+            </div>
+            {% endif %}
         </div>
-    </div>
 
-    <!-- Upcoming Appointments -->
-    <div class="col-lg-4">
-        <div class="card h-100">
-            <div class="card-header bg-white border-0 pt-4 pb-0">
-                <h5 class="mb-0 fw-bold"><i class="bi bi-clock-history text-warning me-2"></i>Upcoming</h5>
-            </div>
-            <div class="card-body">
-                {% if upcoming_appointments %}
-                <div class="list-group list-group-flush">
-                    {% for appt in upcoming_appointments %}
-                    <div class="list-group-item px-0 py-3 border-bottom border-light">
-                        <div class="d-flex w-100 justify-content-between align-items-center mb-1">
-                            <h6 class="mb-0 fw-bold">{{ appt.patient.full_name }}</h6>
-                            <span class="badge badge-soft-warning">{{ appt.datetime|time:"H:i" }}</span>
-                        </div>
-                        <div class="text-muted small mb-2"><i class="bi bi-calendar-event me-1"></i>{{ appt.datetime|date:"M j, Y" }}</div>
-                        {% if appt.reason %}
-                        <p class="mb-0 text-secondary small bg-light p-2 rounded">{{ appt.reason|truncatechars:50 }}</p>
-                        {% endif %}
+        <!-- Upcoming Appointments -->
+        <div class="col-lg-4">
+            <h4 style="margin-bottom: 1rem;">Upcoming</h4>
+            {% if upcoming_appointments %}
+                {% for appt in upcoming_appointments %}
+                <div style="padding: 1rem 0; border-bottom: 1px solid var(--border);">
+                    <div class="d-flex justify-content-between align-items-start mb-1">
+                        <span style="font-weight: 600; font-size: 0.875rem; color: var(--text-primary);">{{ appt.patient.full_name }}</span>
+                        <span class="mono" style="font-size: 0.75rem; color: var(--text-muted);">{{ appt.datetime|time:"H:i" }}</span>
                     </div>
-                    {% endfor %}
+                    <div class="mono" style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.375rem;">{{ appt.datetime|date:"M j, Y" }}</div>
+                    {% if appt.reason %}
+                    <p style="margin: 0; font-size: 0.8125rem; color: var(--text-secondary);">{{ appt.reason|truncatechars:50 }}</p>
+                    {% endif %}
                 </div>
-                <div class="mt-3 text-center">
-                    <a href="{% url 'appointment-list' %}" class="btn btn-sm btn-light rounded-pill px-4 text-primary">All Appointments</a>
+                {% endfor %}
+                <div style="margin-top: 1rem;">
+                    <a href="{% url 'appointment-list' %}" class="btn btn-sm btn-outline-primary">All appointments</a>
                 </div>
-                {% else %}
-                <div class="text-center py-5 text-muted">
-                    <i class="bi bi-calendar-x fs-1 mb-3 d-block text-secondary opacity-50"></i>
-                    No upcoming appointments.
-                </div>
-                {% endif %}
+            {% else %}
+            <div class="empty-state">
+                <i class="bi bi-calendar-x"></i>
+                <p style="margin: 0; color: var(--text-muted); font-size: 0.875rem;">No upcoming appointments.</p>
             </div>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -1,59 +1,68 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}MediTrack – Next-Gen Patient Records{% endblock %}
+{% block title %}MediTrack – Patient Records Management{% endblock %}
 
 {% block content %}
-<div class="hero-section text-center fade-in-up">
-    <div class="row justify-content-center">
-        <div class="col-lg-9">
-            <h1 class="hero-title">
-                Patient Records, <br>
-                <span class="hero-title-gradient">Reimagined.</span>
+<!-- Hero — asymmetric, left-aligned -->
+<div class="hero-section fade-in-up">
+    <div class="row">
+        <div class="col-lg-7">
+            <p class="section-label fade-in-up">Patient Records Platform</p>
+            <h1 class="hero-title fade-in-up delay-100">
+                Medical records,<br>
+                <span class="hero-title-accent">thoughtfully managed.</span>
             </h1>
-            <p class="hero-subtitle fade-in-up delay-100">
-                Experience a state-of-the-art medical records management platform. 
-                Track patients, orchestrate prescriptions, and schedule appointments 
-                with blazing-fast efficiency and military-grade precision.
+            <p class="hero-subtitle fade-in-up delay-200">
+                Track patients, manage prescriptions, and coordinate appointments
+                with precision. Built for clinics that value clarity.
             </p>
-            <div class="d-flex gap-3 justify-content-center fade-in-up delay-200">
-                <a href="{% url 'register' %}" class="btn btn-primary btn-lg px-5 rounded-pill shadow-lg">
-                    <i class="bi bi-rocket-takeoff"></i> Start Free Trial
-                </a>
-                <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg px-5 rounded-pill">
-                    <i class="bi bi-box-arrow-in-right"></i> Sign In
-                </a>
+            <div class="d-flex gap-3 fade-in-up delay-300">
+                <a href="{% url 'register' %}" class="btn btn-primary btn-lg">Get Started</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg">Sign In</a>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Features -->
-    <div class="row mt-5 pt-5 g-4 text-start">
-        <div class="col-md-4 fade-in-up delay-100">
-            <div class="card feature-card">
-                <div class="feature-icon-wrapper shadow-sm">
-                    <i class="bi bi-fingerprint"></i>
-                </div>
-                <h4 class="fw-bold mb-3">Intelligent Profiles</h4>
-                <p class="text-muted">Centralized patient profiles with deep insights, medical history logs, and instant contact retrieval — all elegantly structured.</p>
+<!-- Features — editorial numbered list, not cards -->
+<div style="margin-top: 6rem;">
+    <div class="feature-row fade-in-up">
+        <div class="row align-items-start">
+            <div class="col-md-1">
+                <span class="feature-number">01</span>
+            </div>
+            <div class="col-md-4">
+                <h4 class="feature-title">Patient Profiles</h4>
+            </div>
+            <div class="col-md-5 offset-md-1">
+                <p class="feature-desc">Centralised records with medical history, contact details, and instant retrieval. Everything structured, nothing lost.</p>
             </div>
         </div>
-        <div class="col-md-4 fade-in-up delay-200">
-            <div class="card feature-card">
-                <div class="feature-icon-wrapper shadow-sm">
-                    <i class="bi bi-capsule-pill"></i>
-                </div>
-                <h4 class="fw-bold mb-3">Smart Prescriptions</h4>
-                <p class="text-muted">Generate multi-medication prescriptions effortlessly. Track dosages, administration frequencies, and historical prescriptions.</p>
+    </div>
+    <div class="feature-row fade-in-up delay-100">
+        <div class="row align-items-start">
+            <div class="col-md-1">
+                <span class="feature-number">02</span>
+            </div>
+            <div class="col-md-4">
+                <h4 class="feature-title">Prescription Tracking</h4>
+            </div>
+            <div class="col-md-5 offset-md-1">
+                <p class="feature-desc">Multi-medication prescriptions with dosage tracking and full history. Generate and review in seconds.</p>
             </div>
         </div>
-        <div class="col-md-4 fade-in-up delay-300">
-            <div class="card feature-card">
-                <div class="feature-icon-wrapper shadow-sm">
-                    <i class="bi bi-calendar2-range"></i>
-                </div>
-                <h4 class="fw-bold mb-3">Seamless Scheduling</h4>
-                <p class="text-muted">A fluid appointment system to organize consultations, verify availability, and never miss a scheduled check-up.</p>
+    </div>
+    <div class="feature-row fade-in-up delay-200">
+        <div class="row align-items-start">
+            <div class="col-md-1">
+                <span class="feature-number">03</span>
+            </div>
+            <div class="col-md-4">
+                <h4 class="feature-title">Appointment Scheduling</h4>
+            </div>
+            <div class="col-md-5 offset-md-1">
+                <p class="feature-desc">Organise consultations, manage availability, and keep every scheduled visit accounted for.</p>
             </div>
         </div>
     </div>

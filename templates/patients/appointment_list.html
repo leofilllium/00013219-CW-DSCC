@@ -3,72 +3,62 @@
 {% block title %}Appointments – MediTrack{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4 fade-in-up">
-    <h1 class="mb-0 fw-bold" style="letter-spacing:-0.03em;">
-        <i class="bi bi-calendar-check-fill text-warning pe-2"></i>Appointments
-    </h1>
-    <a href="{% url 'appointment-create' %}" class="btn btn-primary rounded-pill shadow-sm px-4">
-        <i class="bi bi-calendar-plus me-1"></i> Schedule
-    </a>
-</div>
-
-{% if appointments %}
-<div class="table-responsive fade-in-up delay-100">
-    <table class="table table-custom mb-0">
-        <thead>
-            <tr>
-                <th>Patient</th>
-                <th>Date & Time</th>
-                <th>Status</th>
-                <th>Reason</th>
-                <th class="text-end">Doctor</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for apt in appointments %}
-            <tr>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <div class="bg-primary bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3 text-primary fw-bold" style="width:40px;height:40px;">
-                            {{ apt.patient.first_name|make_list|first }}{{ apt.patient.last_name|make_list|first }}
-                        </div>
-                        <a href="{% url 'patient-detail' apt.patient.pk %}" class="fw-bold text-dark text-decoration-none">{{ apt.patient.full_name }}</a>
-                    </div>
-                </td>
-                <td>
-                    <div class="fw-medium text-dark">{{ apt.datetime|date:"M j, Y" }}</div>
-                    <div class="text-muted small"><i class="bi bi-clock me-1"></i>{{ apt.datetime|time:"H:i" }}</div>
-                </td>
-                <td>
-                    {% if apt.status == 'scheduled' %}
-                        <span class="badge badge-soft-primary px-3 py-2"><i class="bi bi-calendar-event me-1"></i>Scheduled</span>
-                    {% elif apt.status == 'completed' %}
-                        <span class="badge badge-soft-success px-3 py-2"><i class="bi bi-check-circle me-1"></i>Completed</span>
-                    {% elif apt.status == 'cancelled' %}
-                        <span class="badge badge-soft-danger px-3 py-2"><i class="bi bi-x-circle me-1"></i>Cancelled</span>
-                    {% else %}
-                        <span class="badge badge-soft-warning px-3 py-2">{{ apt.get_status_display }}</span>
-                    {% endif %}
-                </td>
-                <td>
-                    <span class="text-muted">{{ apt.reason|default:"—"|truncatechars:40 }}</span>
-                </td>
-                <td class="text-end text-muted">
-                    Dr. {{ apt.doctor.last_name|default:apt.doctor.username }}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% else %}
-<div class="text-center py-5 fade-in-up delay-100 glass-panel rounded-4">
-    <div class="d-inline-flex align-items-center justify-content-center bg-light text-muted rounded-circle mb-4 shadow-sm" style="width:100px;height:100px;">
-        <i class="bi bi-calendar-x display-4"></i>
+<div class="fade-in-up">
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-end flex-wrap gap-2">
+            <div>
+                <p class="section-label">Schedule</p>
+                <h1>Appointments</h1>
+            </div>
+            <a href="{% url 'appointment-create' %}" class="btn btn-primary">Schedule</a>
+        </div>
     </div>
-    <h3 class="fw-bold text-dark">No Appointments</h3>
-    <p class="text-muted mb-4">You have no upcoming or past appointments scheduled.</p>
-    <a href="{% url 'appointment-create' %}" class="btn btn-primary rounded-pill px-4 shadow-sm"><i class="bi bi-plus-lg me-1"></i> Schedule Appointment</a>
+
+    {% if appointments %}
+    <div class="table-responsive fade-in-up delay-100">
+        <table class="table table-custom mb-0">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Date &amp; Time</th>
+                    <th>Status</th>
+                    <th>Reason</th>
+                    <th style="text-align: right;">Doctor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for apt in appointments %}
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="avatar">{{ apt.patient.first_name|make_list|first }}{{ apt.patient.last_name|make_list|first }}</div>
+                            <a href="{% url 'patient-detail' apt.patient.pk %}" style="font-weight: 600; color: var(--text-primary); text-decoration: none;">{{ apt.patient.full_name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="mono">{{ apt.datetime|date:"M j, Y" }}</span>
+                        <div class="mono" style="font-size: 0.75rem; color: var(--text-muted);">{{ apt.datetime|time:"H:i" }}</div>
+                    </td>
+                    <td>
+                        <span class="badge {% if apt.status == 'scheduled' %}badge-soft-primary{% elif apt.status == 'completed' %}badge-soft-success{% elif apt.status == 'cancelled' %}badge-soft-danger{% else %}badge-soft-warning{% endif %}">
+                            {{ apt.get_status_display }}
+                        </span>
+                    </td>
+                    <td style="color: var(--text-secondary); font-size: 0.8125rem;">{{ apt.reason|default:"—"|truncatechars:40 }}</td>
+                    <td style="text-align: right; color: var(--text-muted); font-size: 0.8125rem;">
+                        Dr. {{ apt.doctor.last_name|default:apt.doctor.username }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state fade-in-up delay-100">
+        <i class="bi bi-calendar-x"></i>
+        <p style="margin: 0 0 1rem; color: var(--text-secondary); font-size: 0.875rem;">No appointments scheduled.</p>
+        <a href="{% url 'appointment-create' %}" class="btn btn-primary btn-sm">Schedule Appointment</a>
+    </div>
+    {% endif %}
 </div>
-{% endif %}
 {% endblock %}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,6 @@
     <title>{% block title %}MediTrack{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
@@ -18,43 +17,43 @@
             <a class="navbar-brand" href="{% url 'home' %}">
                 <i class="bi bi-heart-pulse-fill"></i> MediTrack
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 {% if user.is_authenticated %}
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'dashboard' %}"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                        <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'patient-list' %}"><i class="bi bi-people"></i> Patients</a>
+                        <a class="nav-link" href="{% url 'patient-list' %}">Patients</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'prescription-list' %}"><i class="bi bi-capsule"></i> Prescriptions</a>
+                        <a class="nav-link" href="{% url 'prescription-list' %}">Prescriptions</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'appointment-list' %}"><i class="bi bi-calendar-check"></i> Appointments</a>
+                        <a class="nav-link" href="{% url 'appointment-list' %}">Appointments</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'medication-list' %}"><i class="bi bi-prescription2"></i> Medications</a>
+                        <a class="nav-link" href="{% url 'medication-list' %}">Medications</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle"></i> {{ user.get_full_name|default:user.username }}
+                            {{ user.get_full_name|default:user.username }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person"></i> Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
                             {% if user.is_staff %}
-                            <li><a class="dropdown-item" href="{% url 'admin:index' %}"><i class="bi bi-gear"></i> Admin</a></li>
+                            <li><a class="dropdown-item" href="{% url 'admin:index' %}">Admin</a></li>
                             {% endif %}
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form method="post" action="{% url 'logout' %}">
                                     {% csrf_token %}
-                                    <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
+                                    <button type="submit" class="dropdown-item">Sign out</button>
                                 </form>
                             </li>
                         </ul>
@@ -63,10 +62,10 @@
                 {% else %}
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                        <a class="nav-link" href="{% url 'login' %}">Sign in</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-primary text-white ms-2 px-4 rounded-pill shadow-sm" href="{% url 'register' %}">Get Started</a>
+                    <li class="nav-item ms-2">
+                        <a class="nav-link nav-cta" href="{% url 'register' %}">Get Started</a>
                     </li>
                 </ul>
                 {% endif %}
@@ -92,12 +91,21 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer mt-auto py-4">
-        <div class="container text-center">
-            <span>&copy; 2026 MediTrack. Built with Django &amp; Bootstrap.</span>
+    <footer class="footer">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <span class="footer-text">MediTrack &mdash; Built with Django</span>
+                <span class="footer-text">&copy; 2026</span>
+            </div>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll shadow
+        window.addEventListener('scroll', () => {
+            document.querySelector('.navbar').classList.toggle('scrolled', window.scrollY > 10);
+        });
+    </script>
 </body>
 </html>

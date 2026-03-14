@@ -3,68 +3,66 @@
 {% block title %}Prescriptions – MediTrack{% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4 fade-in-up">
-    <h1 class="mb-0 fw-bold" style="letter-spacing:-0.03em;">
-        <i class="bi bi-capsule-pill text-success pe-2"></i>Prescriptions
-    </h1>
-    <a href="{% url 'prescription-create' %}" class="btn btn-primary rounded-pill shadow-sm px-4">
-        <i class="bi bi-plus-lg me-1"></i> New Prescription
-    </a>
-</div>
-
-{% if prescriptions %}
-<div class="table-responsive fade-in-up delay-100">
-    <table class="table table-custom mb-0">
-        <thead>
-            <tr>
-                <th>Patient</th>
-                <th>Medications</th>
-                <th>Dosage & Frequency</th>
-                <th>Details</th>
-                <th class="text-end">Prescribed By</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for rx in prescriptions %}
-            <tr>
-                <td>
-                    <a href="{% url 'patient-detail' rx.patient.pk %}" class="fw-bold text-dark text-decoration-none">
-                        <i class="bi bi-person-circle text-muted me-1"></i> {{ rx.patient.full_name }}
-                    </a>
-                </td>
-                <td>
-                    <div class="d-flex flex-wrap gap-1">
-                        {% for med in rx.medications.all %}
-                        <span class="badge badge-soft-primary">{{ med.name }}</span>
-                        {% endfor %}
-                    </div>
-                </td>
-                <td>
-                    <div class="fw-medium text-dark">{{ rx.dosage }}</div>
-                    <div class="text-muted small"><i class="bi bi-arrow-repeat me-1"></i>{{ rx.frequency }}</div>
-                </td>
-                <td>
-                    <div class="text-muted small"><i class="bi bi-calendar-plus me-1"></i>Start: {{ rx.start_date|date:"M j, Y" }}</div>
-                    {% if rx.end_date %}
-                    <div class="text-muted small"><i class="bi bi-calendar-x me-1"></i>End: {{ rx.end_date|date:"M j, Y" }}</div>
-                    {% endif %}
-                </td>
-                <td class="text-end text-muted">
-                    Dr. {{ rx.doctor.last_name|default:rx.doctor.username }}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% else %}
-<div class="text-center py-5 fade-in-up delay-100 glass-panel rounded-4">
-    <div class="d-inline-flex align-items-center justify-content-center bg-light text-muted rounded-circle mb-4 shadow-sm" style="width:100px;height:100px;">
-        <i class="bi bi-capsule display-4"></i>
+<div class="fade-in-up">
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-end flex-wrap gap-2">
+            <div>
+                <p class="section-label">Management</p>
+                <h1>Prescriptions</h1>
+            </div>
+            <a href="{% url 'prescription-create' %}" class="btn btn-primary">New Prescription</a>
+        </div>
     </div>
-    <h3 class="fw-bold text-dark">No Prescriptions yet</h3>
-    <p class="text-muted mb-4">Patient prescriptions will appear here once created.</p>
-    <a href="{% url 'prescription-create' %}" class="btn btn-primary rounded-pill px-4 shadow-sm"><i class="bi bi-plus-lg me-1"></i> Create Prescription</a>
+
+    {% if prescriptions %}
+    <div class="table-responsive fade-in-up delay-100">
+        <table class="table table-custom mb-0">
+            <thead>
+                <tr>
+                    <th>Patient</th>
+                    <th>Medications</th>
+                    <th>Dosage</th>
+                    <th>Date</th>
+                    <th style="text-align: right;">Doctor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rx in prescriptions %}
+                <tr>
+                    <td>
+                        <a href="{% url 'patient-detail' rx.patient.pk %}" style="font-weight: 600; color: var(--text-primary); text-decoration: none;">{{ rx.patient.full_name }}</a>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for med in rx.medications.all %}
+                            <span class="badge badge-soft-primary">{{ med.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </td>
+                    <td>
+                        <div style="font-weight: 500; color: var(--text-primary);">{{ rx.dosage }}</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">{{ rx.frequency }}</div>
+                    </td>
+                    <td>
+                        <span class="mono" style="font-size: 0.8125rem;">{{ rx.start_date|date:"M j, Y" }}</span>
+                        {% if rx.end_date %}
+                        <div class="mono" style="font-size: 0.75rem; color: var(--text-muted);">to {{ rx.end_date|date:"M j, Y" }}</div>
+                        {% endif %}
+                    </td>
+                    <td style="text-align: right; color: var(--text-muted); font-size: 0.8125rem;">
+                        Dr. {{ rx.doctor.last_name|default:rx.doctor.username }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state fade-in-up delay-100">
+        <i class="bi bi-capsule"></i>
+        <p style="margin: 0 0 1rem; color: var(--text-secondary); font-size: 0.875rem;">No prescriptions yet.</p>
+        <a href="{% url 'prescription-create' %}" class="btn btn-primary btn-sm">Create Prescription</a>
+    </div>
+    {% endif %}
 </div>
-{% endif %}
 {% endblock %}

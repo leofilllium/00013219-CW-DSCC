@@ -1,45 +1,37 @@
 {% extends 'base.html' %}
 
-{% block title %}Login – MediTrack{% endblock %}
+{% block title %}Sign In – MediTrack{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center align-items-center fade-in-up" style="min-height: 70vh;">
-    <div class="col-md-6 col-lg-5">
-        <div class="card border-0 shadow-lg auth-card" style="border-radius: 1.5rem; overflow: hidden;">
-            <div class="card-body p-5">
-                <div class="text-center mb-5">
-                    <div class="d-inline-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary rounded-circle mb-3" style="width: 72px; height: 72px;">
-                        <i class="bi bi-person-lock fs-1"></i>
-                    </div>
-                    <h2 class="fw-bold mb-1 text-dark">Welcome back</h2>
-                    <p class="text-muted">Sign in to your MediTrack account</p>
+<div class="row fade-in-up" style="min-height: 65vh; align-items: center;">
+    <div class="col-lg-5">
+        <div class="auth-wrapper">
+            <p class="section-label">Account</p>
+            <h2>Welcome back</h2>
+            <hr class="auth-divider">
+
+            <form method="post">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger py-2 mb-3">
+                    <small>{% for error in form.non_field_errors %}{{ error }}{% endfor %}</small>
                 </div>
-                
-                <form method="post">
-                    {% csrf_token %}
-                    {% if form.non_field_errors %}
-                    <div class="alert alert-danger rounded-3 border-0 py-2">
-                        <small>{% for error in form.non_field_errors %}{{ error }}{% endfor %}</small>
-                    </div>
-                    {% endif %}
-                    
-                    {% for field in form %}
-                    <div class="mb-4">
-                        <label for="{{ field.id_for_label }}" class="form-label fw-bold text-muted small text-uppercase letter-spacing-wide">{{ field.label }}</label>
-                        {{ field }}
-                        {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
-                    </div>
-                    {% endfor %}
-                    
-                    <div class="d-grid mt-5">
-                        <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm"><i class="bi bi-box-arrow-in-right me-1"></i> Sign In</button>
-                    </div>
-                </form>
-                
-                <div class="text-center mt-4 pt-3 border-top">
-                    <p class="text-muted small mb-0">Don't have an account? <a href="{% url 'register' %}" class="fw-bold text-primary text-decoration-none">Register here</a></p>
+                {% endif %}
+
+                {% for field in form %}
+                <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% for error in field.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
                 </div>
-            </div>
+                {% endfor %}
+
+                <button type="submit" class="btn btn-primary w-100 mt-2">Sign In</button>
+            </form>
+
+            <p class="mt-4" style="font-size: 0.8125rem; color: var(--text-muted);">
+                No account? <a href="{% url 'register' %}">Create one</a>
+            </p>
         </div>
     </div>
 </div>
