@@ -131,7 +131,7 @@ p { color: var(--text-secondary); }
 }
 
 .navbar-brand i {
-    color: var(--accent);
+    color: #b83a2a;
     font-size: 1.3rem;
 }
 
